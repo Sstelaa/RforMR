@@ -89,4 +89,42 @@ In addition: Warning message:
 In power_prune(dat, method = 1, dist.outcome = "binary") :
   dist.outcome set to binary but case sample size is missing. Will use total sample size instead but power pruning may be less accurate
 > View(dat)
-> 
+   MR + Heterogeneity + Pleiotropy + single SNP + leave one out
+> library(TwoSampleMR)
+> library(ggplot2)
+> res <- mr(dat)
+Analysing 'K5Jps2' on 'ebi-a-GCST90002242'
+> res
+  id.exposure         id.outcome                                             outcome
+1      K5Jps2 ebi-a-GCST90002242 Glycated hemoglobin levels || id:ebi-a-GCST90002242
+                                    exposure                    method nsnp          b         se
+1 Breast cancer (estrogen-receptor negative) Inverse variance weighted    2 0.04010025 0.02709241
+      pval
+1 0.138839
+> View(res)
+> mr(dat, method_list = c("mr_egger_regression", "mr_ivw"))
+Analysing 'K5Jps2' on 'ebi-a-GCST90002242'
+  id.exposure         id.outcome                                             outcome
+1      K5Jps2 ebi-a-GCST90002242 Glycated hemoglobin levels || id:ebi-a-GCST90002242
+                                    exposure                    method nsnp          b         se
+1 Breast cancer (estrogen-receptor negative) Inverse variance weighted    2 0.04010025 0.02709241
+      pval
+1 0.138839
+> Egger <- mr(dat, method_list = c("mr_egger_regression", "mr_ivw"))
+Analysing 'K5Jps2' on 'ebi-a-GCST90002242'
+> View(Egger)
+> #no egger
+> mr_heterogeneity(dat)
+  id.exposure         id.outcome                                             outcome
+1      K5Jps2 ebi-a-GCST90002242 Glycated hemoglobin levels || id:ebi-a-GCST90002242
+                                    exposure                    method         Q Q_df    Q_pval
+1 Breast cancer (estrogen-receptor negative) Inverse variance weighted 0.1388444    1 0.7094325
+> mr_pleiotropy_test(dat)
+  id.exposure         id.outcome                                             outcome
+1      K5Jps2 ebi-a-GCST90002242 Glycated hemoglobin levels || id:ebi-a-GCST90002242
+                                    exposure egger_intercept se pval
+1 Breast cancer (estrogen-receptor negative)              NA NA   NA
+> res_single <- mr_singlesnp(dat)
+> View(res_single)
+> res_loo <- mr_leaveoneout(dat)
+> View(res_loo)
