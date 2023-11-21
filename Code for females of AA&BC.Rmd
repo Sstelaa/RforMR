@@ -128,3 +128,50 @@ Analysing 'K5Jps2' on 'ebi-a-GCST90002242'
 > View(res_single)
 > res_loo <- mr_leaveoneout(dat)
 > View(res_loo)
+
+ Simple plots
+ <p1 <- mr_scatter_plot(res, dat)
+> p1
+$`K5Jps2.ebi-a-GCST90002242`
+
+attr(,"split_type")
+[1] "data.frame"
+attr(,"split_labels")
+  id.exposure         id.outcome
+1      K5Jps2 ebi-a-GCST90002242
+> length(p1)
+[1] 1
+> ggsave(p1[[1]], file = "scatter plot 2xSNP.pdf", width = 7, height = 7)
+> p2 <- mr_forest_plot(res_single)
+> p2
+$`K5Jps2.ebi-a-GCST90002242`
+
+attr(,"split_type")
+[1] "data.frame"
+attr(,"split_labels")
+  id.exposure         id.outcome
+1      K5Jps2 ebi-a-GCST90002242
+Warning messages:
+1: Removed 2 rows containing missing values (`geom_errorbarh()`). 
+2: Removed 2 rows containing missing values (`geom_point()`). 
+> p3 <- mr_leaveoneout_plot(res_loo)
+> p3
+$`K5Jps2.ebi-a-GCST90002242`
+
+attr(,"split_type")
+[1] "data.frame"
+attr(,"split_labels")
+  id.exposure         id.outcome
+1      K5Jps2 ebi-a-GCST90002242
+> p4 <- mr_funnel_plot(res_single)
+> p4
+$`K5Jps2.ebi-a-GCST90002242`
+
+attr(,"split_type")
+[1] "data.frame"
+attr(,"split_labels")
+  id.exposure         id.outcome
+1      K5Jps2 ebi-a-GCST90002242
+Warning message:
+Removed 1 rows containing missing values (`geom_vline()`). 
+> 
