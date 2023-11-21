@@ -27,3 +27,21 @@ plot(pressure)
 ```
 
 Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+
+
+
+library(MRInstruments)
+> data("gwas_catalog")
+> object.size(gwas_catalog)
+39586152 bytes
+> View(gwas_catalog)
+> bc_gwas <-
++     subset(gwas_catalog,
++            grepl("Huo", Author) &
++                Phenotype == "Breast cancer (estrogen-receptor negative)")
+> bc_exp_dat <- format_data(bc_gwas)
+> View(bc_exp_dat)
+> #both SNPs are extracted
+> View(bc_gwas)
+> View(bc_exp_dat)
+> 
