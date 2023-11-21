@@ -44,4 +44,49 @@ library(MRInstruments)
 > #both SNPs are extracted
 > View(bc_gwas)
 > View(bc_exp_dat)
+> #1349 African American cases, 42 African ancestry cases, 4,150 African American controls, 624 African ancestry controls
+> #replication sample = 573 African American cases, 2,939 African American controls
+> 
+> #PubMedID = 28171663, Huo D, 2016
+> View(bc_exp_dat)
+> ao <- available_outcomes()
+API: public: http://gwas-api.mrcieu.ac.uk/
+> View(ao)
+> mort_out <- extract_instruments(outcomes = 'ukb-e-1019_AFR')
+> #seems that "Other ill-defined and unknown causes of morbidity and mortality" study on AA doesn't contain certain snps UK BIOBANK SPECIFIC ERROR to be debugged
+
+> bc_out <- extract_instruments(
++          outcomes = 'ebi-a-GCST90002242',
++          p1 = 5e-08,
++          clump = TRUE,
++          p2 = 5e-08,
++      r2 = 0.001,
++          kb = 10000,
++          access_token = ieugwasr::check_access_token(),
++          force_server = FALSE
++     )
+> View(bc_out)
+> View(ao)
+> #Glycated haemoglobin levels, Chen j, 2021, PubMed(34059833), AA = African American or Afro-Caribbean, N= 6647, HG19/GRCh37, NO CTTRLs
+> bc_out_dat_info <- format_data(bc_out)
+Error in format_data(bc_out) : SNP column not found
+> #one above doesn't work
+> bc_out_dat <- extract_outcome_data(snps = bmi_exp_dat$SNP, outcomes = 'ebi-a-GCST90002242')
+Error: object 'bmi_exp_dat' not found
+> bc_out_dat <- extract_outcome_data(snps = bc_exp_dat$SNP, outcomes = 'ebi-a-GCST90002242')
+Extracting data for 2 SNP(s) from 1 GWAS(s)
+> View(bc_out_dat)
+> dat <- harmonise_data(
++     exposure_dat = bc_exp_dat, 
++     outcome_dat = bc_out_dat
++ )
+Harmonising Breast cancer (estrogen-receptor negative) (K5Jps2) and Glycated hemoglobin levels || id:ebi-a-GCST90002242 (ebi-a-GCST90002242)
+> View(dat)
+> dat <- power_prune(dat, method = 1, dist.outcome = "binary")
+[1] "finding summary set for --Breast cancer (estrogen-receptor negative) Glycated hemoglobin levels-- with largest sample size"
+Error in order(nexp, decreasing = TRUE) : argument 1 is not a vector
+In addition: Warning message:
+In power_prune(dat, method = 1, dist.outcome = "binary") :
+  dist.outcome set to binary but case sample size is missing. Will use total sample size instead but power pruning may be less accurate
+> View(dat)
 > 
