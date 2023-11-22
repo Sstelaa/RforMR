@@ -233,3 +233,41 @@ NOW TRYING TO COMPARE OUR 2 SNPS WITH 200 DISEASES [however, there are no Africa
 > res_many <- mr(dat3, method_list = c("mr_wald_ratio", "mr_ivw"))
 > res_many <- split_outcome(res_many) # to keep the Y axis label clean we exclude the exposure ID labels from the exposure column
 > res_many <- sort_1_to_many(res_many, b = "b", sort_action = 4) # this sorts results by decreasing effect size (largest effect at top of the plot)
+
+
+   now to plot all this!!!
+
+> View(res_many)
+> res1 <- res_many[1:72, ]
+> res2 <- res_many[73:147, ]
+> View(res1)
+> plot1 <- forest_plot_1_to_many(
++     res1,
++     b = "b",
++     se = "se",
++     exponentiate = TRUE,
++     trans = "log2",
++     ao_slc = FALSE,
++     lo = 0.004,
++     up = 461,
++     col1_width = 2,
++     TraitM = "outcome",
++     col_text_size = 1,
++     xlab = ""
++ )
+> plot1
+> pdf("plot1.pdf", height = 10, width = 8)
+> > plot2 <- forest_plot_1_to_many(
++     res2,
++     b = "b",
++     se = "se",
++     exponentiate = TRUE,
++     trans = "log2",
++     ao_slc = FALSE,
++     lo = 0.004,
++     up = 461,
++     col1_width = 2,
++     TraitM = "outcome",
++     col_text_size = 1,
++     xlab = ""
++ )
