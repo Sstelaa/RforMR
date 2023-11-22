@@ -172,6 +172,41 @@ attr(,"split_type")
 attr(,"split_labels")
   id.exposure         id.outcome
 1      K5Jps2 ebi-a-GCST90002242
-Warning message:
+Warning message:  
 Removed 1 rows containing missing values (`geom_vline()`). 
 > 
+   MORE complex plotsies
+1-to many forest plotsie
+
+> sort_1_to_many(
++     res,
++     b = "b",
++     trait_m = "outcome",
++     sort_action = 4,
++     group = NULL,
++     priority = NULL
++ )
+
+> res <- subset_on_method(res) # default is to subset on either the IVW method (>1 instrumental SNP) or Wald ratio method (1 instrumental SNP). 
+> res <- sort_1_to_many(res, b = "b", sort_action = 4) # this sorts results by decreasing effect size (largest effect at top of the plot)
+> res <- split_exposure(res) # to keep the Y axis label clean we exclude the exposure ID labels from the exposure column 
+> res$weight <- 1/res$se
+
+> min(exp(res$b - 1.96*res$se)) # identify value for 'lo' in forest_plot_1_to_many
+> max(exp(res$b + 1.96*res$se)) # identify value for 'up' in forest_plot_1_to_many
+
+> forest_plot_1_to_many(
+  res,
+  b = "b",
+  se = "se",
+  exponentiate = TRUE,
+  ao_slc = FALSE,
+  lo = 0.3,
+  up = 2.5,
+  TraitM = "exposure",
+  col1_width = 2,
+  by = NULL,
+  trans = "log2",
+  xlab = "OR for CHD per SD increase in risk factor (95% confidence interval)",
+  weight = "weight"
+)
